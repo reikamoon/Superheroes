@@ -65,10 +65,10 @@ class Hero:
         total = 0
         for ability in self.abilities:
             total += ability.attack()
-            return total
+        return total
             # TODO: This method should run Ability.attack() on every ability
             # in self.abilities and returns the total as an integer.
-            pass
+
 
     def defend(self, damage_amt):
         '''Runs `block` method on each armor.
@@ -90,13 +90,6 @@ class Hero:
 
     def is_alive(self):
         if self.current_health < 0:
-            print("{0} has fallen!".format(self.name))
-            if self.name == "Double":
-                print("Phillip: Shotaro, now would be the time to make a strategic retreat.")
-                print("Shotaro: Fine. But I won't forget this!")
-            if self.name == "Kiva":
-                print("Kivat: Wataru, we need to retreat!")
-                print("Wataru: Too strong...")
             return False
         else:
             return True
@@ -125,12 +118,31 @@ class Hero:
             if len(self.abilities) == 0 and len(opponent.abilities) == 0:
                 print("{0} and {1} both lack abilities! It's a draw!".format(self.name, opponent.name))
                 break
+            damage = self.attack()
+            opponentdamage = opponent.attack()
+            opponent.take_damage(damage)
+            self.take_damage(opponentdamage)
             # Print the victor's name to the screen.
-            if self.is_alive() == False:
-                print("{0} wins!".format(opponent.name))
-            if opponent.is_alive() == False:
-                print("{0} wins!".format(self.name))
-                pass
+        if self.is_alive() == False:
+            print("{0} has fallen!".format(self.name))
+            print("{0} wins!".format(opponent.name))
+            if opponent.name == "Double" and opponent.is_alive() == True:
+                print("Phillip: Shotaro, now would be the time to make a strategic retreat.")
+                print("Shotaro: Fine. But I won't forget this!")
+            if opponent.name == "Kiva" and opponent.is_alive() == True:
+                print("Kivat: Wataru, we need to retreat!")
+                print("Wataru: Too strong...")
+
+        if opponent.is_alive() == False:
+            print("{0} has fallen!".format(opponent.name))
+            print("{0} wins!".format(self.name))
+            if self.name == "Double" and self.is_alive() == True:
+                print("Phillip: Shotaro, now would be the time to make a strategic retreat.")
+                print("Shotaro: Fine. But I won't forget this!")
+            if self.name == "Kiva" and self.is_alive() == True:
+                print("Kivat: Wataru, we need to retreat!")
+                print("Wataru: Too strong...")
+
 if __name__ == "__main__":
     # If you run this file from the terminal
     # this block is executed.
@@ -152,5 +164,5 @@ if __name__ == "__main__":
     my_hero2.add_armor(shield)
     my_hero2.add_ability(ability3)
     my_hero2.add_ability(ability4)
-    my_hero.begin_fight()
+    #my_hero.begin_fight()
     my_hero.fight(my_hero2)
