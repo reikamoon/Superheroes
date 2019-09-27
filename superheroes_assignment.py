@@ -37,6 +37,7 @@ class Weapon(Ability):
         """  This method returns a random value
         between one half to the full attack power of the weapon.
         """
+        self.attack_value = random.randint(0, 1500)
         # TODO: Use what you learned to complete this method.
         damage = random.randint(0, self.attack_value)
         return damage // 2
@@ -59,6 +60,7 @@ class Hero:
         self.defense_value = defense_value
         self.attack_value = attack_value
         self.starting_health = self.current_health = starting_health
+        self.stats = self.deaths, self.kills
         # (Some of these values are passed in above,
         # others will need to be set at a starting value)
         # abilities and armors are lists that will contain objects that we can use
@@ -73,6 +75,9 @@ class Hero:
          '''
          # TODO: Add armor object that is passed in to `self.armors`
          self.armor.append(armor)
+
+    def add_weapon(self, weapon):
+         self.abilities.append(weapon)
 
     def add_kills(self, num_kills):
         ''' Update kills with num_kills'''
@@ -91,7 +96,6 @@ class Hero:
         return total
             # TODO: This method should run Ability.attack() on every ability
             # in self.abilities and returns the total as an integer.
-
 
     def defend(self, damage_amt):
         '''Runs `block` method on each armor.
@@ -137,41 +141,69 @@ class Hero:
         ''' Current Hero will take turns fighting the opponent hero passed in.
         '''
         # TODO: Fight each hero until a victor emerges.
+        # If both heroes lack abilities, call a draw
         while self.is_alive() == True and opponent.is_alive() == True:
             if len(self.abilities) == 0 and len(opponent.abilities) == 0:
                 print("{0} and {1} both lack abilities! It's a draw!".format(self.name, opponent.name))
                 break
+            # Fightin'
             damage = self.attack()
             opponentdamage = opponent.attack()
             opponent.take_damage(damage)
             self.take_damage(opponentdamage)
-            # Print the victor's name to the screen.
-        if self.is_alive() == False:
-            print("{0} has fallen!".format(self.name))
-            print("{0} wins!".format(opponent.name))
-            self.add_deaths(1)
-            opponent.add_kills(1)
-            if opponent.name == "Double" and opponent.is_alive() == True:
-                print("Phillip: Shotaro, now would be the time to make a strategic retreat.")
-                print("Shotaro: Fine. But I won't forget this!")
-            if opponent.name == "Kiva" and opponent.is_alive() == True:
-                print("Kivat: Wataru, we need to retreat!")
-                print("Wataru: Too strong...")
 
-        if opponent.is_alive() == False:
-            print("{0} has fallen!".format(opponent.name))
-            print("{0} wins!".format(self.name))
-            opponent.add_deaths(1)
-            self.add_kills(1)
-            if self.name == "Double" and self.is_alive() == True:
-                print("Phillip: Shotaro, now would be the time to make a strategic retreat.")
-                print("Shotaro: Fine. But I won't forget this!")
-            if self.name == "Kiva" and self.is_alive() == True:
-                print("Kivat: Wataru, we need to retreat!")
-                print("Wataru: Too strong...")
+        # Print the victor's name to the screen.
         #TODO: Refactor this method to update the
         # number of kills the hero has when the opponent dies.
         # Also update the number of deaths for whoever dies in the fight
+
+        # Player Dies
+            if self.is_alive() == False:
+                print("{0} has fallen!".format(self.name))
+                print("{0} wins!".format(opponent.name))
+                # add stats
+                self.add_deaths(1)
+                opponent.add_kills(1)
+                # victory quotes
+                if opponent.name == "Double" and opponent.is_alive() == True:
+                    print("Phillip: We are victorious.")
+                    print("Shotaro: Excellent work, Phillip.")
+                if opponent.name == "Kiva" and opponent.is_alive() == True:
+                    print("Kivat: Wataru, nice work!")
+                    print("Wataru: It's finally over...")
+                if opponent.name == "Kabuto" and opponent.is_alive() == True:
+                    print("Tendou: I am the one who walks the path to heaven.")
+                if opponent.name == "Groh" and opponent.is_alive() == True:
+                    print("Groh: Target eliminated. Moving on to next assignment.")
+                if opponent.name == "Dimitri" and opponent.is_alive() == True:
+                    print("Dimitri: I pray for a day in which needless bloodshed will cease.")
+                if opponent.name == "Orochi" and opponent.is_alive() == True:
+                    print("Orochi: Pathetic...I long for a real challenge...")
+
+                # Opponent Dies
+                if opponent.is_alive() == False:
+                    print("{0} has fallen!".format(opponent.name))
+                    print("{0} wins!".format(self.name))
+                    print("test")
+                # add stats
+                opponent.add_deaths(1)
+                self.add_kills(1)
+                # victory quotes
+                if self.name == "Double" and self.is_alive() == True:
+                    print("Phillip: We are victorious.")
+                    print("Shotaro: Excellent work, Phillip.")
+                if self.name == "Kiva" and self.is_alive() == True:
+                    print("Kivat: Wataru, nice work!")
+                    print("Wataru: It's finally over...")
+                if self.name == "Kabuto" and self.is_alive() == True:
+                    print("Tendou: I am the one who walks the path to heaven.")
+                if self.name == "Groh" and self.is_alive() == True:
+                    print("Groh: Target eliminated. Moving on to next assignment.")
+                if self.name == "Dimitri" and self.is_alive() == True:
+                    print("Dimitri: These hands are stained red once again.")
+                if self.name == "Orochi" and self.is_alive() == True:
+                    print("Orochi: Pathetic...I long for a real challenge...")
+
 class Team:
     def __init__(self, teamname):
         ''' Initialize your team with its team name
@@ -179,10 +211,11 @@ class Team:
     # TODO: Implement this constructor by assigning the name and heroes, which should be an empty list
         self.heroes = []
         self.teamname = teamname
-    def attack(self, other_team):
-         # TODO: Randomly select a living hero from each team and have
-        # them fight until one or both teams have no surviving heroes.
-        # Hint: Use the fight method in the Hero class.
+    # def attack(self, other_team):
+    #      # TODO: Randomly select a living hero from each team and have
+    #     # them fight until one or both teams have no surviving heroes.
+    #     # Hint: Use the fight method in the Hero class.
+
     def remove_hero(self, name):
         '''Remove hero from heroes list.
         If Hero isn't found return 0.
@@ -199,15 +232,19 @@ class Team:
           # TODO: Add the Hero object that is passed in to the list of heroes in
           # self.heroes
           self.heroes.append(hero)
-    def view_all_heroes(self):
-         '''Prints out all heroes to the console.'''
-        # TODO: Loop over the list of heroes and print their names to the terminal.
-        for hero in self.heroes:
-            print("{0}".format(hero.name))
+
+    # def view_all_heroes(self):
+    #      '''Prints out all heroes to the console.'''
+    #     # TODO: Loop over the list of heroes and print their names to the terminal.
+    #     for hero in self.heroes:
+    #         print("{}".format(hero.name))
+
     def revive_heroes(self, health = 5000):
         ''' Reset all heroes health to starting_health'''
         # TODO: This method should reset all heroes health to their
         # original starting value.
+        for hero in self.heroes:
+            hero.current_health = hero.starting_health
 
     def stats(self):
         '''Print team statistics'''
@@ -215,36 +252,92 @@ class Team:
         # member of the team to the screen.
         # This data must be output to the console.
         # Hint: Use the information stored in each hero.
-        
+        for hero in self.heroes:
+            print("Hero: {0} has died {1} time(s) and has killed {2} foe(s).".format(self.name, self.deaths, self.kills))
+
 if __name__ == "__main__":
     # If you run this file from the terminal
     # this block is executed.
+    # Weapons
+    weapondouble = Weapon("CycloneJoker Double Blades",100)
+    weaponkiva = Weapon("Zanbat Blade", 100)
+    weaponkabuto = Weapon("Kabuto Kunai", 100)
+    weapongroh = Weapon("Aerondight Replica", 100)
+    weapondimitri = Weapon("Areadbhar", 100)
+    weaponorochi = Weapon("Serpent King's Scythe", 100)
+    # Abilities
     ability = Ability("Double Boiled Extreme", 350)
     ability2 = Ability("Flame Maximum Drive", 200)
     ability3 = Ability("Wake up Fever!", 350)
     ability4 = Ability("Break the Chain", 200)
     ability5 = Ability("Clock up", 200)
     ability6 = Ability("Hyper Kick", 350)
+    ability7 = Ability("Chevalier Mal Fet", 200)
+    ability8 = Ability("Super Chevalier Mal Fet", 350)
+    ability9 = Ability("Atrocity", 350)
+    ability10 = Ability("Vengeance of the King", 200)
+    # Armor
     armor = Armor("Cyclone", 200)
     armor2 = Armor("Joker", 200)
     armor3 = Armor("Emperor's Garb", 200)
     shield = Armor("Emperor's Shield", 200)
     armor4 = Armor("ZECT Kabuto Armor", 200)
     armor5 = Armor("ZECT Kabuto Cast", 200)
+    armor6 = Armor("Midnight Purge Uniform", 200)
+    gauntlet = Armor("Limiter Gauntlet", 200)
+    charm = Armor("Minerva's Ward", 15)
+    armor7 = Armor("Fallen King's Armor", 200)
+    armor8 = Armor("Lion's Cape", 200)
+    armor9 = Armor("Serpent King's Garb", 200)
+    shield2 = Armor("Aegis", 200)
+    charm2 = Armor("Ouroboros Bracelet", 15)
+    # Teams
     my_Team = Team("Rider War")
+    enemy_Team = Team("Strike Force")
+    # Team Rider War
+    # Double
     my_hero = Hero("Double")
+    my_hero.add_weapon(weapondouble)
     my_hero.add_armor(armor)
     my_hero.add_armor(armor2)
     my_hero.add_ability(ability)
     my_hero.add_ability(ability2)
+    # Kiva
     my_hero2 = Hero("Kiva")
+    my_hero2.add_weapon(weaponkiva)
     my_hero2.add_armor(armor3)
     my_hero2.add_armor(shield)
     my_hero2.add_ability(ability3)
     my_hero2.add_ability(ability4)
+    # Kabuto
     my_hero3 = Hero("Kabuto")
+    my_hero3.add_weapon(weaponkabuto)
     my_hero3.add_armor(armor4)
     my_hero3.add_armor(armor5)
+    my_hero3.add_ability(ability5)
+    my_hero3.add_ability(ability6)
+    # Team Strike Force
+    # Groh
+    my_hero4 = Hero("Groh")
+    my_hero4.add_weapon(weapongroh)
+    my_hero4.add_armor(armor6)
+    my_hero4.add_armor(gauntlet)
+    my_hero4.add_armor(charm)
+    my_hero4.add_ability(ability7)
+    my_hero4.add_ability(ability8)
+    # Dimitri
+    my_hero5 = Hero("Dimitri")
+    my_hero5.add_weapon(weapondimitri)
+    my_hero5.add_armor(armor7)
+    my_hero5.add_armor(armor8)
+    my_hero5.add_ability(ability9)
+    my_hero5.add_ability(ability10)
+    # Orochi
+    my_hero6 = Hero("Orochi")
+    my_hero6.add_weapon(weaponorochi)
+    my_hero6.add_armor(armor9)
+    my_hero6.add_armor(shield2)
+    my_hero6.add_armor(charm2)
+    # Begin Game
     #my_hero.begin_fight()
     my_hero.fight(my_hero2)
-    print(my_hero.kills)
