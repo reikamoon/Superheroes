@@ -237,6 +237,84 @@ class Hero:
                 if self.name == "Orochi" and self.is_alive() == True:
                     print("Orochi: Pathetic...I long for a real challenge...")
 
+    def create_hero(self):
+        # Create Hero
+        print("Welcome! Let's create a hero.")
+        print("First, we need a name.")
+        print("Enter your hero's name:")
+        hero_name = input()
+        print("Okay, your hero's name is {0}.".format(hero_name))
+        print("Now, choose a class for {0}.".format(hero_name))
+        try:
+            print("Your class choices are:")
+            print("1) Warrior, 2) Mage, 3) Thief")
+            print("Choose your class.")
+            hero_class = input()
+            if hero_class == "Warrior":
+                print("You have chosen the Warrior Class!")
+                print("You are an armed bruiser that deals nasty damage!")
+                hero_class = "Warrior"
+            if hero_class == "Mage":
+                print("You have chosen the Mage Class!")
+                print("You are an expert in the arcane arts!")
+                hero_class = "Mage"
+            if hero_class == "Thief":
+                print("You have chosen the Thief Class!")
+                print("You are a shadow in the night who excells in speed and stealth!")
+                hero_class = "Thief"
+        except ValueError:
+            print("Sorry, integers only!")
+            print("Entering default class...Warrior")
+            hero_class = "Warrior"
+            custom_hero = Hero("{0}".format(hero_name))
+            self.name = custom_hero
+            print("My hero's name is {0}, and is a {1}.\n".format(custom_hero.name, hero_class))
+        custom_hero = Hero("{0}".format(hero_name))
+        self.name = custom_hero
+        print("My hero's name is {0}, and is a {1}.\n".format(custom_hero.name, hero_class))
+
+    def create_ability(self):
+        '''Prompt for Ability information.
+            return Ability with values from user Input
+            '''
+            # TODO: This method will allow a user to create an ability.
+            # Prompt the user for the necessary information to create a new ability object.
+            # return the new ability object.
+        print("Now, let's create a starting ability for your hero.")
+        print("Choose a name for your ability:\n")
+        ability_name = input()
+        try:
+            print("How strong is this ability?")
+            ability_strength = int(input())
+        except ValueError:
+            print("Sorry, integers only!")
+            print("Entering default value...100")
+            ability_strength = 100
+        self.add_ability(Ability(ability_name, ability_strength))
+        print("Ability is called {0} and has {1} strength!".format(ability_name, ability_strength))
+        print("{0} has gained the ability, {1}!\n".format(self.name, ability_name))
+
+    def create_weapon(self):
+        print("Okay, let's make your hero's trusted weapon!")
+        print("What type of weapon you'd like to forge:")
+        weapon_type = input()
+        print("So your weapon is a mighty {0}?".format(weapon_type))
+        print("Does this weapon have a name?")
+        weapon_name = input()
+        print("Your {0}'s name is {1}.".format(weapon_type, weapon_name))
+        try:
+            print("Now, how strong is the {0}?".format(weapon_name))
+            weapon_strength = int(input())
+        except ValueError:
+            print("Sorry, integers only!")
+            print("Entering default value...100")
+            weapon_strength = 100
+        self.add_weapon(Weapon(weapon_name, weapon_strength))
+        print("Your {0} is called {1} and has {2} strength!".format(weapon_type, weapon_name, weapon_strength))
+        print("Now, your hero needs some protection. Time to forge some armor!")
+
+    def create_armor()
+
 class Team:
     def __init__(self, teamname):
         ''' Initialize your team with its team name
@@ -354,14 +432,6 @@ class Arena:
             print("Choose a name for your hero:\n")
             default.name = Hero(name, 5000)
 
-    def create_ability(self):
-        '''Prompt for Ability information.
-            return Ability with values from user Input
-        '''
-        # TODO: This method will allow a user to create an ability.
-        # Prompt the user for the necessary information to create a new ability object.
-        # return the new ability object.
-
     def create_weapon(self):
          '''Prompt user for Weapon information
             return Weapon with values from user input.
@@ -469,3 +539,5 @@ if __name__ == "__main__":
     # Begin Game
     #default.begin_fight()
     #my_hero5.fight(my_hero4)
+    default.create_hero()
+    default.create_ability()
