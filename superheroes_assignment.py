@@ -171,6 +171,34 @@ class Hero:
             return True
             pass
 
+    def team_battle(self, opponent):
+        ''' Battle each team against each other.'''
+        # TODO: Randomly select a living hero from each team and have
+        # them fight until one or both teams have no surviving heroes.
+        # Hint: Use the fight method in the Hero class.
+        team_one_name = "My Team"
+        team_two_name = "Opposing Team"
+        team_one = Team("My Team")
+        team_two = Team("Opposing Team")
+        test_hero1 = Hero("Masamune Date")
+        test_hero2 = Hero("Yukimura Sanada")
+        team_one.add_hero(test_hero2)
+        team_two.add_hero(test_hero1)
+        print("{0} vs. {1}! Only one shall emerge victorious!".format(team_one_name, team_two_name))
+        while self.is_alive() and enemy_team.is_alive():
+                my_team_hero = self.randomhero()
+                enemy_team_hero = enemy_team.randomhero()
+                my_team_hero.fight(enemy_team_hero)
+            # Fightin'
+                damage = self.attack()
+                opponentdamage = opponent.attack()
+                opponent.take_damage(damage)
+                self.take_damage(opponentdamage)
+                if enemy_team_hero ==  False:
+                    print("{0} has fallen! {1} is the victor!".format(self.name, my_hero4.name))
+                if my_team_hero.is_alive() == False:
+                    print("{0} has fallen! {1} is the victor!".format(self.name, my_hero4.name))
+
     def fight(self, opponent):
         ''' Current Hero will take turns fighting the opponent hero passed in.
         '''
@@ -238,37 +266,32 @@ class Hero:
                     print("Orochi: Pathetic...I long for a real challenge...")
 
     def create_hero(self):
-        # Create Hero
+        # Name your hero
         print("Welcome! Let's create a hero.")
         print("First, we need a name.")
         print("Enter your hero's name:")
         hero_name = input()
         print("Okay, your hero's name is {0}.".format(hero_name))
         print("Now, choose a class for {0}.".format(hero_name))
-        try:
-            print("Your class choices are:")
-            print("1) Warrior, 2) Mage, 3) Thief")
-            print("Choose your class.")
-            hero_class = input()
-            if hero_class == "Warrior":
-                print("You have chosen the Warrior Class!")
-                print("You are an armed bruiser that deals nasty damage!")
-                hero_class = "Warrior"
-            if hero_class == "Mage":
-                print("You have chosen the Mage Class!")
-                print("You are an expert in the arcane arts!")
-                hero_class = "Mage"
-            if hero_class == "Thief":
-                print("You have chosen the Thief Class!")
-                print("You are a shadow in the night who excells in speed and stealth!")
-                hero_class = "Thief"
-        except ValueError:
-            print("Sorry, integers only!")
-            print("Entering default class...Warrior")
+        # Choose your class (There are default classes, but user can put any string they want.)
+        print("Your class choices are:")
+        print("1) Warrior, 2) Mage, 3) Thief")
+        print("Choose your class.")
+        hero_class = input()
+        # Default classes will have extra text, but any other strings are accepted but will not have a description.
+        if hero_class == "Warrior":
+            print("You have chosen the Warrior Class!")
+            print("You are an armed bruiser that deals nasty damage!")
             hero_class = "Warrior"
-            custom_hero = Hero("{0}".format(hero_name))
-            self.name = custom_hero
-            print("My hero's name is {0}, and is a {1}.\n".format(custom_hero.name, hero_class))
+        if hero_class == "Mage":
+            print("You have chosen the Mage Class!")
+            print("You are an expert in the arcane arts!")
+            hero_class = "Mage"
+        if hero_class == "Thief":
+            print("You have chosen the Thief Class!")
+            print("You are a shadow in the night who excells in speed and stealth!")
+            hero_class = "Thief"
+        # Creates Custom Hero Object with the custom name given.
         custom_hero = Hero("{0}".format(hero_name))
         self.name = custom_hero
         print("My hero's name is {0}, and is a {1}.\n".format(custom_hero.name, hero_class))
@@ -281,8 +304,9 @@ class Hero:
             # Prompt the user for the necessary information to create a new ability object.
             # return the new ability object.
         print("Now, let's create a starting ability for your hero.")
-        print("Choose a name for your ability:\n")
+        print("Choose a name for your ability:")
         ability_name = input()
+        # Checks to see if input was an integer
         try:
             print("How strong is this ability?")
             ability_strength = int(input())
@@ -290,11 +314,13 @@ class Hero:
             print("Sorry, integers only!")
             print("Entering default value...100")
             ability_strength = 100
+        # Adds Ability
         self.add_ability(Ability(ability_name, ability_strength))
         print("Ability is called {0} and has {1} strength!".format(ability_name, ability_strength))
         print("{0} has gained the ability, {1}!\n".format(self.name, ability_name))
 
     def create_weapon(self):
+        #Creates Custom weapon.
         print("Okay, let's make your hero's trusted weapon!")
         print("What type of weapon you'd like to forge:")
         weapon_type = input()
@@ -302,18 +328,36 @@ class Hero:
         print("Does this weapon have a name?")
         weapon_name = input()
         print("Your {0}'s name is {1}.".format(weapon_type, weapon_name))
+        #Checks to make sure input was an integer.
         try:
             print("Now, how strong is the {0}?".format(weapon_name))
             weapon_strength = int(input())
         except ValueError:
             print("Sorry, integers only!")
-            print("Entering default value...100")
-            weapon_strength = 100
+            print("Entering default value...200")
+            weapon_strength = 200
         self.add_weapon(Weapon(weapon_name, weapon_strength))
         print("Your {0} is called {1} and has {2} strength!".format(weapon_type, weapon_name, weapon_strength))
-        print("Now, your hero needs some protection. Time to forge some armor!")
+        print("Now, your hero needs some protection. Time to forge some armor!\n")
 
-    def create_armor()
+    def create_armor(self):
+        #Creates Custom Armor.
+        print("Lastly, let's forge some armor for your hero.")
+        print("What is the name of your armor?")
+        armor_name: input()
+        print("So, your armor is known far and wide as {0}.".format(armor_name))
+        #Checks to make sure input was an integer.
+        try:
+            print("How much protection value does {0} give?".format(armor_name))
+            armor_defense = int(input())
+        except ValueError:
+            print("Sorry, integers only!")
+            print("Entering default value...200")
+            armor_defense = 200
+        self.add_armor(Armor(armor_name, armor_defense))
+        print("Armor named {0} with a defense value of {1} has been forged!".format(armor_name, armor_defense))
+        print("Bolta would be proud!")
+
 
 class Team:
     def __init__(self, teamname):
@@ -374,7 +418,7 @@ class Team:
             if hero.is_alive():
                 return hero
 
-    def attack(self, enemy_team):
+    def team_attack(self, enemy_team):
         ''' Battle each team against each other.'''
         # TODO: Randomly select a living hero from each team and have
         # them fight until one or both teams have no surviving heroes.
@@ -394,63 +438,196 @@ class Team:
             if my_team_hero.is_alive() == False:
                 print("{0} has fallen! {1} is the victor!".format(enemy_team.name, my_team.name))
 
-
-
-
-class Arena:
+class Arena(Hero, Team):
     def __init__(self):
-        '''Instantiate properties
-            team_one: None
-            team_two: None
-            '''
-        # TODO: create instance variables named team_one and team_two that
-        # will hold our teams.
+        super().__init__(self)
+    '''Instantiate properties
         team_one: None
         team_two: None
+        '''
+    # TODO: create instance variables named team_one and team_two that
+    # will hold our teams.
+    team_one: None
+    team_two: None
 
     def create_team(self):
         team_one_name = input("Please choose a name for your team.\n")
         self.team_one = Team(team_one_name)
+        print("Your team is called {0}".format(team_one_name))
+        try:
+            print("How many heroes are on this team?")
+            number_of_heroes = int(input())
+        except ValueError:
+            print("Sorry, integers only!")
+        print("Now, time to create a hero for your team.")
+        print("To create a hero, you must also make a starting ability, a weapon, and armor.\n")
+        self.create_hero()
         return self.team_one
 
     def create_enemy_team(self):
-        team_one_name = input("Please choose a name for the opposing team.\n")
+        print("Now it's time to make your opponent's team.")
+        team_two_name = input("Please choose a name for the opposing team.\n")
         self.team_two = Team(team_two_name)
+        print("The opposing team is called {0}".format(team_two_name))
+        try:
+            print("How many heroes are in {0}?".format(team_two_name))
+            number_of_heroes2 = int(input())
+        except ValueError:
+            print("Sorry, integers only!")
+        print("Now, time to create heroes for the opposing team.")
+        print("To create a hero, you must also make a starting ability, a weapon, and armor.\n")
+        self.create_hero()
         return self.team_two
 
-        def create_hero(self):
-            '''Prompt user for Hero information
-            return Hero with values from user input.
+    def create_hero(self):
+        # Name your hero
+        print("Welcome! Let's create a hero.")
+        print("First, we need a name.")
+        print("Enter your hero's name:")
+        hero_name = input()
+        print("Okay, your hero's name is {0}.".format(hero_name))
+        print("Now, choose a class for {0}.".format(hero_name))
+        # Choose your class (There are default classes, but user can put any string they want.)
+        print("Your class choices are:")
+        print("1) Warrior, 2) Mage, 3) Thief")
+        print("Choose your class.")
+        hero_class = input()
+        # Default classes will have extra text, but any other strings are accepted but will not have a description.
+        if hero_class == "Warrior":
+            print("You have chosen the Warrior Class!")
+            print("You are an armed bruiser that deals nasty damage!")
+            hero_class = "Warrior"
+        if hero_class == "Mage":
+            print("You have chosen the Mage Class!")
+            print("You are an expert in the arcane arts!")
+            hero_class = "Mage"
+        if hero_class == "Thief":
+            print("You have chosen the Thief Class!")
+            print("You are a shadow in the night who excells in speed and stealth!")
+            hero_class = "Thief"
+        # Creates Custom Hero Object with the custom name given.
+        custom_hero = Hero("{0}".format(hero_name))
+        self.name = custom_hero.name
+        print("My hero's name is {0}, and is a {1}.\n".format(custom_hero.name, hero_class))
+        self.create_ability()
+
+    def create_ability(self):
+        '''Prompt for Ability information.
+            return Ability with values from user Input
             '''
-            # TODO: This method should allow a user to create a hero.
-            # User should be able to specify if they want armors, weapons, and
-            # abilities.
-            # Call the methods you made above and use the return values to build
-            # your hero.
-            #
-            # return the new hero object
-            print("Choose a name for your hero:\n")
-            default.name = Hero(name, 5000)
+            # TODO: This method will allow a user to create an ability.
+            # Prompt the user for the necessary information to create a new ability object.
+            # return the new ability object.
+        print("Now, let's create a starting ability for your hero.")
+        print("Choose a name for your ability:")
+        ability_name = input()
+        # Checks to see if input was an integer
+        try:
+            print("How strong is this ability?")
+            ability_strength = int(input())
+        except ValueError:
+            print("Sorry, integers only!")
+            print("Entering default value...100")
+            ability_strength = 100
+        # Adds Ability
+        self.add_ability(Ability(ability_name, ability_strength))
+        print("Ability is called {0} and has {1} strength!".format(ability_name, ability_strength))
+        print("{0} has gained the ability, {1}!\n".format(self.name, ability_name))
+        self.create_weapon()
 
     def create_weapon(self):
-         '''Prompt user for Weapon information
-            return Weapon with values from user input.
-        '''
-        # TODO: This method will allow a user to create a weapon.
-        # Prompt the user for the necessary information to create a new weapon object.
-        # return the new weapon object.
+        #Creates Custom weapon.
+        print("Okay, let's make your hero's trusted weapon!")
+        print("What type of weapon you'd like to forge:")
+        weapon_type = input()
+        print("So your weapon is a mighty {0}?".format(weapon_type))
+        print("Does this weapon have a name?")
+        weapon_name = input()
+        print("Your {0}'s name is {1}.".format(weapon_type, weapon_name))
+        #Checks to make sure input was an integer.
+        try:
+            print("Now, how strong is the {0}?".format(weapon_name))
+            weapon_strength = int(input())
+        except ValueError:
+            print("Sorry, integers only!")
+            print("Entering default value...200")
+            weapon_strength = 200
+        self.add_weapon(Weapon(weapon_name, weapon_strength))
+        print("Your {0} is called {1} and has {2} strength!".format(weapon_type, weapon_name, weapon_strength))
+        print("Now, your hero needs some protection. Time to forge some armor!\n")
+        self.create_armor()
 
     def create_armor(self):
-         '''Prompt user for Armor information
-          return Armor with values from user input.
-        '''
-        # TODO:This method will allow a user to create a piece of armor.
-        #  Prompt the user for the necessary information to create a new armor
-        #  object.
-        #
-        #  return the new armor object with values set by user.
+        #Creates Custom Armor.
+        # Default Settings
+        customarmor_name = "Default"
+        customarmor_defense = 200
+        print("Lastly, let's forge some armor for your hero.")
+        print("What is the name of your armor?")
+        customarmor_name = input()
+        print("So, your armor is known far and wide as {0}.".format(customarmor_name))
+        #Checks to make sure input was an integer.
+        try:
+            print("How much protection value does {0} give?".format(customarmor_name))
+            customarmor_defense = int(input())
+        except ValueError:
+            print("Sorry, integers only!")
+            print("Entering default value...200")
+            customarmor_defense = 200
+        self.add_armor(Armor(customarmor_name, customarmor_defense))
+        print("Armor named {0} with a defense value of {1} has been forged!".format(customarmor_name, customarmor_defense))
+        print("Bolta would be proud!\n")
+        user_input = input("Alright, did you want to make another hero? Or are you ready to battle? Choose Battle, Create hero or Create Enemy Team.\n")
+        user_input = user_input.lower()
+        if user_input == "create hero":
+            self.create_hero()
+        if user_input == "Create Enemy Team":
+            self.create_enemy_team()
+        if user_input == "Battle":
+            self.arena_battle(team_two)
+
+    def team_battle(self, opponent):
+        ''' Battle each team against each other.'''
+        # TODO: Randomly select a living hero from each team and have
+        # them fight until one or both teams have no surviving heroes.
+        # Hint: Use the fight method in the Hero class.
+        team_one_name = "My Team"
+        team_two_name = "Opposing Team"
+        team_one = Team("My Team")
+        team_two = Team("Opposing Team")
+        test_hero1 = Hero("Masamune Date")
+        test_hero2 = Hero("Yukimura Sanada")
+        team_one.add_hero(test_hero2)
+        team_two.add_hero(test_hero1)
+        print("{0} vs. {1}! Only one shall emerge victorious!".format(team_one_name, team_two_name))
+        while team_one_name.is_alive() and team_two_name.is_alive():
+                my_team_hero = self.randomhero()
+                enemy_team_hero = enemy_team.randomhero()
+                my_team_hero.fight(enemy_team_hero)
+            # Fightin'
+                damage = self.attack()
+                opponentdamage = opponent.attack()
+                opponent.take_damage(damage)
+                self.take_damage(opponentdamage)
+                if enemy_team_hero ==  False:
+                    print("{0} has fallen! {1} is the victor!".format(self.name, my_hero4.name))
+                if my_team_hero.is_alive() == False:
+                    print("{0} has fallen! {1} is the victor!".format(self.name, my_hero4.name))
+    def show_stats(self):
+        '''Print team statistics'''
+        # TODO: This method should print the ratio of kills/deaths for each
+        # member of the team to the screen.
+        # This data must be output to the console.
+        # Hint: Use the information stored in each hero.
+        for hero in self.heroes:
+            print("Hero: {0} has died {1} time(s) and has killed {2} foe(s).".format(self.name, self.deaths, self.kills))
+
+
+
+
 
 if __name__ == "__main__":
+    game_is_running = True
     # If you run this file from the terminal
     # this block is executed.
     # My Data
@@ -537,7 +714,17 @@ if __name__ == "__main__":
     # Default Hero
     default = Hero("Default")
     # Begin Game
-    #default.begin_fight()
-    #my_hero5.fight(my_hero4)
-    default.create_hero()
-    default.create_ability()
+    arena = Arena()
+    arena.create_team()
+    arena.create_enemy_team()
+    # Test Battle (Since Creation process is lengthy!)
+    my_hero.fight(my_hero2)
+    while game_is_running:
+        my_hero.fight(my_hero4)
+        play_again = input("Would you like to play again?\n")
+        #Check for player Input
+        if play_again.lower() == "No":
+            game_is_running = False
+        else:
+            arena.team_one.revive_heroes()
+            arena.team_two.revive_heroes()
