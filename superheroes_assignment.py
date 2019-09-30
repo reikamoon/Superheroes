@@ -1,5 +1,6 @@
 import random
 
+
 class Ability:
     def __init__(self, name, attack_strength):
         '''Create Instance Variables:
@@ -64,6 +65,7 @@ class Hero:
         # (Some of these values are passed in above,
         # others will need to be set at a starting value)
         # abilities and armors are lists that will contain objects that we can use
+
     def begin_fight(self):
         print("Welcome to the arena!")
         user_input = input("Would you like to create your very own hero?\n")
@@ -242,10 +244,6 @@ class Team:
     # TODO: Implement this constructor by assigning the name and heroes, which should be an empty list
         self.heroes = []
         self.teamname = teamname
-    # def attack(self, other_team):
-    #      # TODO: Randomly select a living hero from each team and have
-    #     # them fight until one or both teams have no surviving heroes.
-    #     # Hint: Use the fight method in the Hero class.
 
     def remove_hero(self, name):
         '''Remove hero from heroes list.
@@ -256,7 +254,7 @@ class Team:
             if name == hero.name:
                 self.heroes.remove(hero)
                 return 1
-        return 0
+            return 0
 
     def add_hero(self, hero):
           '''Add Hero object to self.heroes.'''
@@ -264,11 +262,10 @@ class Team:
           # self.heroes
           self.heroes.append(hero)
 
-    # def view_all_heroes(self):
-    #      '''Prints out all heroes to the console.'''
-    #     # TODO: Loop over the list of heroes and print their names to the terminal.
-    #     for hero in self.heroes:
-    #         print("{}".format(hero.name))
+    def view_all_heroes(self):
+        for hero in self.heroes:
+            print("{0}".format(hero.name))
+
 
     def revive_heroes(self, health = 5000):
         ''' Reset all heroes health to starting_health'''
@@ -292,6 +289,7 @@ class Team:
         else:
             return True
 
+
     def randomhero(self):
         while True:
             hero = random.choice(self.heroes)
@@ -303,11 +301,23 @@ class Team:
         # TODO: Randomly select a living hero from each team and have
         # them fight until one or both teams have no surviving heroes.
         # Hint: Use the fight method in the Hero class.
-        print("{0} vs. {1}! Only one shall emerge victorious!".format(my_team, enemy_team))
+        print("{0} vs. {1}! Only one shall emerge victorious!".format(my_team.name, enemy_team.name))
         while self.is_alive() and enemy_team.is_alive():
             my_team_hero = self.randomhero()
             enemy_team_hero = enemy_team.randomhero()
             my_team_hero.fight(enemy_team_hero)
+            # Fightin'
+            damage = self.attack()
+            opponentdamage = opponent.attack()
+            opponent.take_damage(damage)
+            self.take_damage(opponentdamage)
+            if enemy_team_hero ==  False:
+                print("{0} has fallen! {1} is the victor!".format(my_team.name, enemy_team.name))
+            if my_team_hero.is_alive() == False:
+                print("{0} has fallen! {1} is the victor!".format(enemy_team.name, my_team.name))
+
+
+
 
 class Arena:
     def __init__(self):
@@ -320,44 +330,55 @@ class Arena:
         team_one: None
         team_two: None
 
+    def create_team(self):
+        team_one_name = input("Please choose a name for your team.\n")
+        self.team_one = Team(team_one_name)
+        return self.team_one
 
-    #  def create_hero(self):
-    #     '''Prompt user for Hero information
-    #       return Hero with values from user input.
-    #     '''
-    #     # TODO: This method should allow a user to create a hero.
-    #     # User should be able to specify if they want armors, weapons, and
-    #     # abilities.
-    #     # Call the methods you made above and use the return values to build
-    #     # your hero.
-    #     #
-    #     # return the new hero object
-    #
-    # def create_ability(self):
-    #     '''Prompt for Ability information.
-    #         return Ability with values from user Input
-    #     '''
-    #     # TODO: This method will allow a user to create an ability.
-    #     # Prompt the user for the necessary information to create a new ability object.
-    #     # return the new ability object.
-    #
-    # def create_weapon(self):
-    #      '''Prompt user for Weapon information
-    #         return Weapon with values from user input.
-    #     '''
-    #     # TODO: This method will allow a user to create a weapon.
-    #     # Prompt the user for the necessary information to create a new weapon object.
-    #     # return the new weapon object.
-    #
-    # def create_armor(self):
-    #      '''Prompt user for Armor information
-    #       return Armor with values from user input.
-    #     '''
-    #     # TODO:This method will allow a user to create a piece of armor.
-    #     #  Prompt the user for the necessary information to create a new armor
-    #     #  object.
-    #     #
-    #     #  return the new armor object with values set by user.
+    def create_enemy_team(self):
+        team_one_name = input("Please choose a name for the opposing team.\n")
+        self.team_two = Team(team_two_name)
+        return self.team_two
+
+        def create_hero(self):
+            '''Prompt user for Hero information
+            return Hero with values from user input.
+            '''
+            # TODO: This method should allow a user to create a hero.
+            # User should be able to specify if they want armors, weapons, and
+            # abilities.
+            # Call the methods you made above and use the return values to build
+            # your hero.
+            #
+            # return the new hero object
+            print("Choose a name for your hero:\n")
+            default.name = Hero(name, 5000)
+
+    def create_ability(self):
+        '''Prompt for Ability information.
+            return Ability with values from user Input
+        '''
+        # TODO: This method will allow a user to create an ability.
+        # Prompt the user for the necessary information to create a new ability object.
+        # return the new ability object.
+
+    def create_weapon(self):
+         '''Prompt user for Weapon information
+            return Weapon with values from user input.
+        '''
+        # TODO: This method will allow a user to create a weapon.
+        # Prompt the user for the necessary information to create a new weapon object.
+        # return the new weapon object.
+
+    def create_armor(self):
+         '''Prompt user for Armor information
+          return Armor with values from user input.
+        '''
+        # TODO:This method will allow a user to create a piece of armor.
+        #  Prompt the user for the necessary information to create a new armor
+        #  object.
+        #
+        #  return the new armor object with values set by user.
 
 if __name__ == "__main__":
     # If you run this file from the terminal
@@ -446,4 +467,5 @@ if __name__ == "__main__":
     # Default Hero
     default = Hero("Default")
     # Begin Game
-    default.begin_fight()
+    #default.begin_fight()
+    #my_hero5.fight(my_hero4)
